@@ -19,7 +19,17 @@ def CreateChart(df, axis_label, chart_title, file_name):
 	ax.set_ylabel(axis_label, fontsize= 18)
 
 	plt.savefig(file_name)
-	
+
+	print()
+	print("Figure sucessfully created!")
+	print("file_name: " + file_name)
+	print()
+
+	show_chart = input("Show chart? (yes/no) ")
+
+	if show_chart == "yes":
+		plt.show()
+
 def MonteCarloDice(n,num_dice):
 	#rolls num_dice dice n times and records the cumulative sum into a dataframe 
 
@@ -42,10 +52,17 @@ def MonteCarloDice(n,num_dice):
 
 	return frequency_dict
 
-n = 1000
-num_dice = 3
 
-chart_title = "Monte Carlo Simulation of " + str(num_dice) + " Dice"
+### need to add error checking
+
+print("Welcome to the Monte Carlo Dice Simulation!")
+
+print()
+num_dice = int(input("How many dice would you like to roll? "))
+n = int(input("How many iterations? "))
+print()
+
+chart_title = "Monte Carlo Simulation of " + str(num_dice) + " Dice (n = " + str(n) + ")"
 axis_label = "Frequency of Cumulative sum of " + str(num_dice) + " Dice"
 
 file_name = chart_title + ".png"
@@ -56,6 +73,7 @@ df = pd.DataFrame.from_dict(test_dict, orient= "index",columns= ['frequency'])
 df.sort_index(ascending=True, inplace= True)
 
 CreateChart(df, axis_label, chart_title, file_name)
+
 
 
 # print("before df head")
