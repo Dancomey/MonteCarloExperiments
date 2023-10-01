@@ -10,14 +10,19 @@ import json
 import random
 
 def CreateChart(df, axis_label, chart_title, file_name):
-	#creates chart from dataframe
 	
+	#creates chart from dataframe
 	fig, ax = plt.subplots(figsize= (16, 9))
 	ax.bar(x= df.index, height= df['frequency'], width = 0.98, edgecolor = "Black")
 	
 	ax.set_title(chart_title, fontsize= 28)
 	ax.set_ylabel(axis_label, fontsize= 18)
 
+	# Add a vertical line for the mean
+	mean_value = df.index.to_series().mean()
+	plt.axvline(mean_value, color='red', linestyle='dashed', linewidth=2, label='Mean')
+
+	#Save Figure
 	plt.savefig(file_name)
 
 	print()
