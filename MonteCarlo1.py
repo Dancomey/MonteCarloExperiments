@@ -1,6 +1,4 @@
-#A program that creates a montecarlo simulation
-# Reference: https://levelup.gitconnected.com/how-to-make-pareto-chart-in-matplotlib-ff9b6ec7fadf
-
+#A program that prompts the user for the number of dice and number of iterations and creates a histogram of the results of a monte carlo simulation
 #By: Dan Comey
 
 import pandas as pd 
@@ -30,13 +28,14 @@ def CreateChart(df, axis_label, chart_title, file_name):
 	print("file_name: " + file_name)
 	print()
 
+	#prompts user if they would like to display the chart
 	show_chart = input("Show chart? (yes/no) ")
 
 	if show_chart == "yes":
 		plt.show()
 
 def MonteCarloDice(n,num_dice):
-	#rolls num_dice dice n times and records the cumulative sum into a dataframe 
+	#rolls num_dice dice n times and records the cumulative sum into a dictionary 
 
 	#creates blank dictionary
 	frequency_dict = {}
@@ -44,6 +43,7 @@ def MonteCarloDice(n,num_dice):
 
 	for i in range(n):
 		for j in range(num_dice):
+			#rolls num_dice dice n times and calculates the cumulative sum
 			cur_sum += random.randint(1, 6)
 
 		# Update the frequency count in the dictionary
@@ -58,7 +58,7 @@ def MonteCarloDice(n,num_dice):
 	return frequency_dict
 
 
-### need to add error checking
+### currently does not have error checking for the inputs
 
 print("Welcome to the Monte Carlo Dice Simulation!")
 
@@ -69,18 +69,15 @@ print()
 
 chart_title = "Monte Carlo Simulation of " + str(num_dice) + " Dice (n = " + str(n) + ")"
 axis_label = "Frequency of Cumulative sum of " + str(num_dice) + " Dice"
-
 file_name = chart_title + ".png"
 
-test_dict = MonteCarloDice(n,num_dice)
 
+# creates data frame of results of monte carlo dice simulation based off of the user inputed number of dice and number of iterations
+test_dict = MonteCarloDice(n,num_dice)
 df = pd.DataFrame.from_dict(test_dict, orient= "index",columns= ['frequency'])
+
+#sorts dataframe index from smallest to largest for a more logical chart
 df.sort_index(ascending=True, inplace= True)
 
+#creates histogram of the above dataframe
 CreateChart(df, axis_label, chart_title, file_name)
-
-
-
-# print("before df head")
-# print(df.head())
-
